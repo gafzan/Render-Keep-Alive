@@ -1,0 +1,20 @@
+name: Keep Render Instance Warm
+
+on:
+  schedule:
+    # This cron syntax runs every 5 minutes. 
+    # You can adjust it. '*/15 * * * *' would run every 15 minutes.
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # This allows you to manually run the workflow from the GitHub UI
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Ping Render API
+      run: |
+        # Replace the URL with your actual Render API endpoint
+        curl -s -o /dev/null -w "Status Code: %{http_code}\n" https://financial-risk-signal-api.onrender.com/api/health
+      # Optional: Add a simple success message
+    - name: Confirm Success
+      run: echo "Successfully pinged the API at $(date)"
